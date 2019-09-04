@@ -36,7 +36,7 @@ impl Post {
 trait State {
     fn request_review(self: Box<Self>) -> Box<dyn State>;
     fn approve(self: Box<Self>) -> Box<dyn State>;
-    fn content<'a>(&self, post: &'a Post) -> &'a str {
+    fn content<'a>(&self, _: &'a Post) -> &'a str {
         ""
     }
 }
@@ -85,4 +85,12 @@ fn main() {
     let mut post = Post::new();
 
     post.add_text("hello world!!!");
+
+    assert_eq!("", post.content());
+
+    post.request_view();
+
+    post.approve();
+
+    assert_eq!("hello world!!!", post.content());
 }
